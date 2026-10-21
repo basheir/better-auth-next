@@ -31,6 +31,9 @@ import {
     InputGroupTextarea,
 } from "@/components/ui/input-group"
 import { Spinner } from "./ui/spinner"
+import Link from "next/link"
+import { authClient } from "@/lib/auth-client"
+import error from "next/dist/api/error"
 
 const formSchema = z.object({
     email: z
@@ -48,8 +51,22 @@ export function SignInForm() {
         },
     })
 
-    function onSubmit(data: z.infer<typeof formSchema>) {
-
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        try {
+            await authClient.signIn.email({
+                email: data.email,
+                password: data.password,
+            }, {
+                onSuccess: () => {
+                    toast.success("Signed in successfully!");
+                },
+                onError: (ctx) => {
+                    toast.error(`Failed to sign in: ${ctx.error.message}`);
+                }
+            });
+        } catch (error) {
+            toast.error("Failed to sign in. Please try again.");
+        }
     }
 
     return (
@@ -106,18 +123,28 @@ export function SignInForm() {
                 </form>
             </CardContent>
             <CardFooter>
-                <Field orientation="horizontal">
-                    <Button type="button" variant="outline" onClick={() => form.reset()}>
-                        Reset
-                    </Button>
-                    <Button type="submit" form="form-rhf-demo">
-                        {
-                            form.formState.isSubmitting ?
-                                <Spinner className="size-6" />
-                                : "Sign In"
-                        }
-                    </Button>
-                </Field>
+
+                <>
+                    <Field orientation="horizontal" className="flex w-full items-center justify-between">
+                        <p className="text-sm flex items-center gap-1">
+                            Don't have an account?{' '}
+                            <Link href="/sign-up" className="underline">
+                                Sign up
+                            </Link>
+                        </p>
+                        <Button type="button" variant="outline" onClick={() => form.reset()}>
+                            Reset
+                        </Button>
+                        <Button type="submit" form="form-rhf-demo">
+                            {
+                                form.formState.isSubmitting ?
+                                    <Spinner className="size-6" />
+                                    : "Sign In"
+                            }
+                        </Button>
+                    </Field>
+                </>
+
             </CardFooter>
         </Card>
     )
