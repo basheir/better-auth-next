@@ -34,6 +34,7 @@ import { Spinner } from "./ui/spinner"
 import Link from "next/link"
 import { authClient } from "@/lib/auth-client"
 import error from "next/dist/api/error"
+import { Separator } from "@/components/ui/separator"
 
 const formSchema = z.object({
     email: z
@@ -68,6 +69,36 @@ export function SignInForm() {
             toast.error("Failed to sign in. Please try again.");
         }
     }
+
+
+    const signInWithGoogle = async () => {
+        try {
+
+            await authClient.signIn.social({
+                provider: "google",
+                // callbackUrl: "/",
+            })
+
+        } catch (error) {
+
+        }
+    }
+
+
+    const signInWithGitHub = async () => {
+        try {
+
+            await authClient.signIn.social({
+                provider: "github",
+            })
+
+        } catch (error) {
+
+        }
+    }
+
+
+
 
     return (
         <Card className="w-full sm:max-w-md">
@@ -122,7 +153,7 @@ export function SignInForm() {
                     </FieldGroup>
                 </form>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex-col w-full">
 
                 <>
                     <Field orientation="horizontal" className="flex w-full items-center justify-between">
@@ -143,6 +174,23 @@ export function SignInForm() {
                             }
                         </Button>
                     </Field>
+
+                    <div className="flex flex-col w-full my-3 items-center justify-center">
+                        <p className="text-sm">Or</p>
+                        <Separator className="" />
+
+                    </div>
+
+                    <div className="flex flex-col gap-3 w-full">
+                        <Button type="button" className="text-sm cursor-pointer" onClick={signInWithGoogle} >
+                            Continue with Google
+                        </Button>
+                        <Button type="button" className="text-sm cursor-pointer" onClick={signInWithGitHub} >
+                            Continue with GitHub
+                        </Button>
+                    </div>
+
+
                 </>
 
             </CardFooter>
