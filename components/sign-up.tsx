@@ -64,7 +64,7 @@ export function SignUpForm() {
                 name: data.name,
                 email: data.email,
                 password: data.password,
-                
+
             }, {
                 onSuccess: () => {
                     toast.success("Signed up successfully!");
@@ -87,7 +87,7 @@ export function SignUpForm() {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
+                <form id="signup-form" onSubmit={form.handleSubmit(onSubmit)}>
 
                     <FieldGroup>
                         <Controller
@@ -109,26 +109,7 @@ export function SignUpForm() {
                             )}
                         />
                     </FieldGroup>
-                    <FieldGroup>
-                        <Controller
-                            name="email"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel>
-                                        Email
-                                    </FieldLabel>
-                                    <Input
-                                        {...field}
-                                        type="email" aria-invalid={fieldState.invalid}
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
-                        />
-                    </FieldGroup>
+
                     <FieldGroup>
                         <Controller
                             name="email"
@@ -170,6 +151,27 @@ export function SignUpForm() {
                             )}
                         />
                     </FieldGroup>
+
+                    <FieldGroup>
+                        <Controller
+                            name="confirmPassword"
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel>
+                                        Confirm Password
+                                    </FieldLabel>
+                                    <Input
+                                        {...field}
+                                        type="password" aria-invalid={fieldState.invalid}
+                                    />
+                                    {fieldState.invalid && (
+                                        <FieldError errors={[fieldState.error]} />
+                                    )}
+                                </Field>
+                            )}
+                        />
+                    </FieldGroup>
                 </form>
             </CardContent>
             <CardFooter>
@@ -185,7 +187,7 @@ export function SignUpForm() {
                         <Button type="button" variant="outline" onClick={() => form.reset()}>
                             Reset
                         </Button>
-                        <Button type="submit" form="form-rhf-demo">
+                        <Button type="submit" form="signup-form">
                             {
                                 form.formState.isSubmitting ?
                                     <Spinner className="size-6" />

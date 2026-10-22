@@ -78,7 +78,7 @@ export function SignInForm() {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
+                <form id="signin-form" onSubmit={form.handleSubmit(onSubmit)}>
                     <FieldGroup>
                         <Controller
                             name="email"
@@ -135,7 +135,7 @@ export function SignInForm() {
                         <Button type="button" variant="outline" onClick={() => form.reset()}>
                             Reset
                         </Button>
-                        <Button type="submit" form="form-rhf-demo">
+                        <Button type="submit" form="signin-form">
                             {
                                 form.formState.isSubmitting ?
                                     <Spinner className="size-6" />
